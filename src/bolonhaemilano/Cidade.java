@@ -17,6 +17,9 @@ public class Cidade {
     private int soldados = 0;
     private int construcoes = 0;
 
+    private boolean colheitaFeita = false;
+    private boolean impostosArrecadados = false;
+
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
         this.dono = dono;
@@ -74,8 +77,26 @@ public class Cidade {
         this.nivelJustica = nivelJustica;
     }
 
+    public boolean isColheitaFeita() {
+        return colheitaFeita;
+    }
+
+    public void marcarColheitaFeita() {
+        colheitaFeita = true;
+    }
+
+    public boolean isImpostosArrecadados() {
+        return impostosArrecadados;
+    }
+
+    public void marcarImpostosArrecadados() {
+        impostosArrecadados = true;
+    }
+
     public void avancarAno() {
         anoAtual++;
+        colheitaFeita = false;
+        impostosArrecadados = false;
     }
 
     public void adicionarFlorins(int qtd) {
@@ -88,6 +109,7 @@ public class Cidade {
         if (qtd < 0 || qtd > florins) {
             return false;
         }
+
         florins -= qtd;
         return true;
     }
@@ -102,6 +124,7 @@ public class Cidade {
         if (qtd < 0 || qtd > terras) {
             return false;
         }
+
         terras -= qtd;
         return true;
     }
@@ -116,6 +139,7 @@ public class Cidade {
         if (qtd < 0 || qtd > graos) {
             return false;
         }
+
         graos -= qtd;
         return true;
     }
@@ -130,6 +154,7 @@ public class Cidade {
         if (qtd < 0 || qtd > servos) {
             return false;
         }
+
         servos -= qtd;
         return true;
     }
@@ -144,6 +169,7 @@ public class Cidade {
         if (qtd < 0 || qtd > soldados) {
             return false;
         }
+
         soldados -= qtd;
         return true;
     }
@@ -158,11 +184,13 @@ public class Cidade {
         if (qtd < 0 || qtd > construcoes) {
             return false;
         }
+
         construcoes -= qtd;
         return true;
     }
 
     public void exibirStatus() {
+
         System.out.println("\n=== STATUS DA CIDADE ===");
         System.out.println("Cidade: " + nome);
         System.out.println("Ano: " + anoAtual);
@@ -176,5 +204,11 @@ public class Cidade {
         System.out.println("Justica: " + nivelJustica);
         System.out.println("Soldados: " + soldados);
         System.out.println("Construcoes: " + construcoes);
+
+        System.out.println("Colheita realizada: " +
+            (colheitaFeita ? "Sim" : "Nao"));
+
+        System.out.println("Impostos arrecadados: " +
+            (impostosArrecadados ? "Sim" : "Nao"));
     }
 }

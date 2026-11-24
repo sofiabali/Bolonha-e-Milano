@@ -11,6 +11,10 @@ public class Agricultura {
 
     public int processarColheita(Cidade cidade) {
 
+        if (cidade.isColheitaFeita()) {
+            return -1;
+        }
+
         int hectares = Math.min(
             cidade.getTerras(),
             cidade.getServos() * HECTARES_POR_SERVO
@@ -28,6 +32,7 @@ public class Agricultura {
         int producao = hectares * RENDIMENTO_POR_HECTARE;
 
         cidade.adicionarGraos(producao);
+        cidade.marcarColheitaFeita();
 
         return producao;
     }
@@ -40,7 +45,7 @@ public class Agricultura {
         }
 
         int alimentoDistribuido =
-            (cidade.getGraos() * percentual) / 100;
+            cidade.getGraos() * percentual / 100;
 
         cidade.removerGraos(alimentoDistribuido);
 

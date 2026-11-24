@@ -3,11 +3,16 @@ package bolonhaemilano;
 public class Governo {
 
     private static final int TAXA_MAXIMA = 50;
+
     private static final double MULTIPLICADOR_JUSTA = 0.8;
     private static final double MULTIPLICADOR_MODERADA = 1.0;
     private static final double MULTIPLICADOR_SEVERA = 1.3;
 
     public int arrecadarImpostos(Cidade cidade) {
+
+        if (cidade.isImpostosArrecadados()) {
+            return -1;
+        }
 
         int base = cidade.getServos() *
                    cidade.getTaxaImposto() / 100;
@@ -18,6 +23,7 @@ public class Governo {
         int arrecadado = (int) (base * multiplicador);
 
         cidade.adicionarFlorins(arrecadado);
+        cidade.marcarImpostosArrecadados();
 
         return arrecadado;
     }
@@ -47,6 +53,7 @@ public class Governo {
     private double multiplicadorPara(String nivel) {
 
         switch (nivel) {
+
             case "Justa":
                 return MULTIPLICADOR_JUSTA;
 
