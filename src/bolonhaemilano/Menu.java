@@ -6,6 +6,8 @@ public class Menu {
 
     private Scanner scanner = new Scanner(System.in);
     private boolean emExecucao = true;
+    private Jogador jogador;
+    private Cidade cidade;
 
     public void executar() {
         while (emExecucao) {
@@ -34,13 +36,13 @@ public class Menu {
     private void processarOpcao(int opcao) {
         switch (opcao) {
             case 1:
-                System.out.println("Novo jogo");
+                iniciarNovoJogo();
                 break;
             case 2:
-                System.out.println("Status da cidade");
+                exibirStatus();
                 break;
             case 7:
-                System.out.println("Jogo de estrategia medieval.");
+                exibirSobre();
                 break;
             case 0:
                 emExecucao = false;
@@ -49,5 +51,42 @@ public class Menu {
             default:
                 System.out.println("Opcao invalida!");
         }
+    }
+
+    private void iniciarNovoJogo() {
+        System.out.print("Nome do jogador: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Nome da cidade: ");
+        String nomeCidade = scanner.nextLine();
+
+        if (nome.trim().isEmpty()) {
+            nome = "Jogador 1";
+        }
+
+        if (nomeCidade.trim().isEmpty()) {
+            nomeCidade = "Bolonha";
+        }
+
+        jogador = new Jogador(nome);
+        cidade = new Cidade(nomeCidade, jogador);
+
+        System.out.println("Novo jogo iniciado!");
+        exibirStatus();
+    }
+
+    private void exibirStatus() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo em andamento.");
+            return;
+        }
+
+        cidade.exibirStatus();
+    }
+
+    private void exibirSobre() {
+        System.out.println("Bolonha e Milano");
+        System.out.println("Jogo de estrategia medieval.");
+        System.out.println("Governe sua cidade e desenvolva seu reino.");
     }
 }
