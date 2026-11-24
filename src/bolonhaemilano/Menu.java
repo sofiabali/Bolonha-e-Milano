@@ -8,9 +8,11 @@ public class Menu {
     private boolean emExecucao = true;
     private Jogador jogador;
     private Cidade cidade;
+
     private Mercado mercado = new Mercado();
     private Agricultura agricultura = new Agricultura();
     private Governo governo = new Governo();
+    private Construcoes construcoes = new Construcoes();
 
     public void executar() {
         while (emExecucao) {
@@ -26,6 +28,7 @@ public class Menu {
         System.out.println("3 - Mercado");
         System.out.println("4 - Agricultura");
         System.out.println("5 - Governo");
+        System.out.println("6 - Construcoes");
         System.out.println("7 - Sobre o jogo");
         System.out.println("0 - Sair");
         System.out.print("Escolha: ");
@@ -56,6 +59,9 @@ public class Menu {
             case 5:
                 abrirGoverno();
                 break;
+            case 6:
+                abrirConstrucoes();
+                break;
             case 7:
                 exibirSobre();
                 break;
@@ -69,6 +75,7 @@ public class Menu {
     }
 
     private void iniciarNovoJogo() {
+
         System.out.print("Nome do jogador: ");
         String nome = scanner.nextLine();
 
@@ -106,6 +113,7 @@ public class Menu {
     }
 
     private int lerQuantidade() {
+
         System.out.print("Quantidade: ");
         int qtd = lerOpcao();
 
@@ -118,6 +126,7 @@ public class Menu {
     }
 
     private void abrirMercado() {
+
         if (cidade == null) {
             System.out.println("Inicie um jogo primeiro!");
             return;
@@ -126,6 +135,7 @@ public class Menu {
         boolean noMercado = true;
 
         while (noMercado) {
+
             System.out.println("\n=== MERCADO ===");
             System.out.println("Florins: " + cidade.getFlorins());
             System.out.println("Graos: " + cidade.getGraos());
@@ -205,9 +215,7 @@ public class Menu {
             System.out.println("0 - Voltar");
             System.out.print("Escolha: ");
 
-            int opcao = lerOpcao();
-
-            switch (opcao) {
+            switch (lerOpcao()) {
                 case 1:
                     colher();
                     break;
@@ -224,6 +232,7 @@ public class Menu {
     }
 
     private void colher() {
+
         int producao = agricultura.processarColheita(cidade);
 
         System.out.println("Colheita realizada!");
@@ -337,6 +346,80 @@ public class Menu {
 
         if (governo.definirJustica(cidade, nivel)) {
             System.out.println("Justica atualizada!");
+        }
+    }
+
+    private void abrirConstrucoes() {
+
+        if (cidade == null) {
+            System.out.println("Inicie um jogo primeiro!");
+            return;
+        }
+
+        boolean naConstrucoes = true;
+
+        while (naConstrucoes) {
+
+            System.out.println("\n=== CONSTRUCOES ===");
+            System.out.println("Florins: " + cidade.getFlorins());
+            System.out.println("Servos: " + cidade.getServos());
+            System.out.println("Soldados: " + cidade.getSoldados());
+            System.out.println("Construcoes: " + cidade.getConstrucoes());
+
+            System.out.println("Preco do soldado: " +
+                construcoes.getPrecoSoldado() + " florins + 1 servo");
+
+            System.out.println("Preco da construcao: " +
+                construcoes.getPrecoConstrucao() + " florins");
+
+            System.out.println("1 - Recrutar soldados");
+            System.out.println("2 - Construir");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha: ");
+
+            switch (lerOpcao()) {
+                case 1:
+                    recrutarSoldados();
+                    break;
+                case 2:
+                    construir();
+                    break;
+                case 0:
+                    naConstrucoes = false;
+                    break;
+                default:
+                    System.out.println("Opcao invalida!");
+            }
+        }
+    }
+
+    private void recrutarSoldados() {
+
+        int qtd = lerQuantidade();
+
+        if (qtd == 0) {
+            return;
+        }
+
+        if (construcoes.recrutarSoldados(cidade, qtd)) {
+            System.out.println("Soldados recrutados com sucesso!");
+        } else {
+            System.out.println("Recursos insuficientes!");
+        }
+    }
+
+    private void construir() {
+
+        int qtd = lerQuantidade();
+
+        if (qtd == 0) {
+            return;
+        }
+
+        if (construcoes.construir(cidade, qtd)) {
+            System.out.println("Construcoes realizadas com sucesso!");
+        } else {
+            System.out.println("Recursos insuficientes!");
         }
     }
 }

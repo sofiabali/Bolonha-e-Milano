@@ -14,6 +14,9 @@ public class Cidade {
     private int taxaImposto = 10;
     private String nivelJustica = "Moderada";
 
+    private int soldados = 0;
+    private int construcoes = 0;
+
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
         this.dono = dono;
@@ -45,6 +48,14 @@ public class Cidade {
 
     public int getServos() {
         return servos;
+    }
+
+    public int getSoldados() {
+        return soldados;
+    }
+
+    public int getConstrucoes() {
+        return construcoes;
     }
 
     public int getTaxaImposto() {
@@ -123,6 +134,34 @@ public class Cidade {
         return true;
     }
 
+    public void adicionarSoldados(int qtd) {
+        if (qtd > 0) {
+            soldados += qtd;
+        }
+    }
+
+    public boolean removerSoldados(int qtd) {
+        if (qtd < 0 || qtd > soldados) {
+            return false;
+        }
+        soldados -= qtd;
+        return true;
+    }
+
+    public void adicionarConstrucoes(int qtd) {
+        if (qtd > 0) {
+            construcoes += qtd;
+        }
+    }
+
+    public boolean removerConstrucoes(int qtd) {
+        if (qtd < 0 || qtd > construcoes) {
+            return false;
+        }
+        construcoes -= qtd;
+        return true;
+    }
+
     public void exibirStatus() {
         System.out.println("\n=== STATUS DA CIDADE ===");
         System.out.println("Cidade: " + nome);
@@ -135,5 +174,7 @@ public class Cidade {
         System.out.println("Servos: " + servos);
         System.out.println("Impostos: " + taxaImposto + "%");
         System.out.println("Justica: " + nivelJustica);
+        System.out.println("Soldados: " + soldados);
+        System.out.println("Construcoes: " + construcoes);
     }
 }
