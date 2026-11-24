@@ -9,6 +9,7 @@ public class Menu {
     private Jogador jogador;
     private Cidade cidade;
     private Mercado mercado = new Mercado();
+    private Agricultura agricultura = new Agricultura();
 
     public void executar() {
         while (emExecucao) {
@@ -22,6 +23,7 @@ public class Menu {
         System.out.println("1 - Novo jogo");
         System.out.println("2 - Ver status da cidade");
         System.out.println("3 - Mercado");
+        System.out.println("4 - Agricultura");
         System.out.println("7 - Sobre o jogo");
         System.out.println("0 - Sair");
         System.out.print("Escolha: ");
@@ -45,6 +47,9 @@ public class Menu {
                 break;
             case 3:
                 abrirMercado();
+                break;
+            case 4:
+                abrirAgricultura();
                 break;
             case 7:
                 exibirSobre();
@@ -171,6 +176,72 @@ public class Menu {
             } else {
                 System.out.println("Operacao recusada!");
             }
+        }
+    }
+
+    private void abrirAgricultura() {
+
+        if (cidade == null) {
+            System.out.println("Inicie um jogo primeiro!");
+            return;
+        }
+
+        boolean naAgricultura = true;
+
+        while (naAgricultura) {
+
+            System.out.println("\n=== AGRICULTURA ===");
+            System.out.println("Terras: " + cidade.getTerras());
+            System.out.println("Servos: " + cidade.getServos());
+            System.out.println("Graos: " + cidade.getGraos());
+
+            System.out.println("1 - Colher");
+            System.out.println("2 - Distribuir alimentos");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha: ");
+
+            int opcao = lerOpcao();
+
+            switch (opcao) {
+                case 1:
+                    colher();
+                    break;
+                case 2:
+                    distribuirAlimentos();
+                    break;
+                case 0:
+                    naAgricultura = false;
+                    break;
+                default:
+                    System.out.println("Opcao invalida!");
+            }
+        }
+    }
+
+    private void colher() {
+        int producao = agricultura.processarColheita(cidade);
+
+        System.out.println("Colheita realizada!");
+        System.out.println("Graos produzidos: " + producao);
+        System.out.println("Estoque atual: " + cidade.getGraos());
+    }
+
+    private void distribuirAlimentos() {
+
+        System.out.print("Percentual de graos (20 a 80): ");
+        int percentual = lerOpcao();
+
+        int servosAntes = cidade.getServos();
+
+        if (agricultura.distribuirAlimentos(cidade, percentual)) {
+
+            System.out.println("Alimentos distribuidos!");
+            System.out.println("Servos antes: " + servosAntes);
+            System.out.println("Servos agora: " + cidade.getServos());
+            System.out.println("Graos restantes: " + cidade.getGraos());
+
+        } else {
+            System.out.println("Percentual invalido!");
         }
     }
 }
